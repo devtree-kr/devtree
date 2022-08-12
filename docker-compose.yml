@@ -1,0 +1,67 @@
+version: "3.8"
+services:
+  app:
+    volumes:
+     - ./app:/app
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/django.dockerfile
+    command: sh -c "python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - FRONT_URI=http://client:3000
+      - ALLOWED_HOST=localhost
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=root
+      - DB_PASS=$ROOT_PASSWORD
+    ports:
+      - 28000:8000
+    
+  db:
+    platform: linux/x86_64
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: devtree
+      MYSQL_ROOT_PASSWORD: $ROOT_PASSWORD
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      TZ: "Asia/Tokyo"
+    ports:
+      - 23306:3306
+    expose:
+      - 23306
+    volumes:
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d #DB駆動エントリポイント
+      - ./mysql/db:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
+      - ./mysql/conf.d:/etc/mysql/conf.d #MySql設定ファイル
+    command: --default-authentication-plugin=mysql_native_password
+  
+  client:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/next.dockerfile
+    volumes:
+      - ./client:/usr/src/app
+    command: "pnpm dev"
+    ports:
+      - 23000:3000
+
+ # phpMyAdmin
+  pma:
+    image: phpmyadmin/phpmyadmin
+    environment:
+    - PMA_ARBITRARY=1
+    - PMA_HOSTS=db
+    ports:
+    - 28888:80
+  
+  nginx:
+    tty: true
+    image: nginx:1.21-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - client
