@@ -1,6 +1,7 @@
 version: "3.8"
 services:
   app:
+    container_name: devtree-django
     volumes:
      - ./app:/app
     build: 
@@ -8,15 +9,12 @@ services:
       dockerfile: ./dockerfiles/django.dockerfile
     command: sh -c "python manage.py migrate &&
       python manage.py runserver 0.0.0.0:8000"
-    environment:
-      - FRONT_URI=http://client:3000
-      - ALLOWED_HOST=localhost
-      - DB_HOST=db
-      - DB_NAME=app
-      - DB_USER=root
-      - DB_PASS=$ROOT_PASSWORD
     ports:
       - 28000:8000
+    depends_on:
+      db:
+        condition: service_healthy
+
     
   db:
     platform: linux/x86_64
@@ -36,6 +34,8 @@ services:
       - ./mysql/db:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
       - ./mysql/conf.d:/etc/mysql/conf.d #MySql設定ファイル
     command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+        test: mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD
   
   client:
     build:
@@ -51,10 +51,12 @@ services:
   pma:
     image: phpmyadmin/phpmyadmin
     environment:
-    - PMA_ARBITRARY=1
-    - PMA_HOSTS=db
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
     ports:
-    - 28888:80
+      - 28888:80
+    depends_on:
+      - db
   
   nginx:
     tty: true

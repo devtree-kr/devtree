@@ -4,9 +4,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /requirements.txt
-RUN apk add --update --no-cache postgresql-client jpeg-dev
+RUN apk add --update --no-cache jpeg-dev
 RUN apk add --update --no-cache --virtual .tmp-build-deps \
-    gcc libc-dev linux-headers postgresql-dev musl-dev zlib zlib-dev
+    gcc mariadb-dev libc-dev linux-headers musl-dev zlib zlib-dev
+RUN python3 -m pip install --upgrade pip setuptools
 RUN pip install -r /requirements.txt
 RUN apk del .tmp-build-deps
 
