@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
-from .serializers import ItemSerailzer
-from .models import Item
+from .serializers import PostItemSerailzer
+from .models import PostItem
 
 # Create your views here.
 
 
-class ItemViewSet(viewsets.ModelViewSet):
-    queryset = Item.objects.all()
-    serializer_class = ItemSerailzer
+class PostItemViewSet(viewsets.ModelViewSet):
+    queryset = PostItem.objects.all()
+    serializer_class = PostItemSerailzer

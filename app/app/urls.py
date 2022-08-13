@@ -16,15 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
-from post.views import ItemViewSet
-from app.views import UserViewSet
+from post.views import PostItemViewSet
+from user.views import UserItemViewSet
 from rest_framework import routers, serializers, viewsets
 
-
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'posts', ItemViewSet)
-
+router.register(r'users', UserItemViewSet)
+router.register(r'posts', PostItemViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
