@@ -16,14 +16,14 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
-from posts.views import PostsViewSet
+from post.views import ItemViewSet
 from app.users.viewset import UdemyUserViewSet
 from rest_framework import routers, serializers, viewsets
 
 
 router = routers.DefaultRouter()
 router.register(r'users', UdemyUserViewSet)
-router.register(r'posts', PostsViewSet)
+router.register(r'posts', ItemViewSet)
 
 
 urlpatterns = [
