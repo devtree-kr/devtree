@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class UserItem(models.Model):
+class User(models.Model):
     id = models.PositiveBigIntegerField(primary_key=True)
     email = models.EmailField(unique=True)
     password = models.TextField()

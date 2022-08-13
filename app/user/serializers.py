@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import UserItem
+from .models import User
 
 
-class UserItemSerailzer(serializers.ModelSerializer):
+class UserSerailzer(serializers.ModelSerializer):
     class Meta:
-        model = UserItem
+        model = User
         fields = ['id', 'email', 'name', 'nickName', 'address', 'tel',
                   'sex', 'birthday', 'corpId', 'createdAt', 'updatedAt']
