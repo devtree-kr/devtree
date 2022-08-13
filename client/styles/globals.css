@@ -2,8 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #7fc8aa1e;
 }
 
 a {
@@ -14,7 +14,7 @@ a {
 * {
   box-sizing: border-box;
 }
-
+/* 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -23,4 +23,11 @@ a {
     color: white;
     background: black;
   }
+} */
+
+header {
+  background-color: white;
+  padding: 1rem;
+  font-size: 20px;
+  font-weight: bold;
 }
