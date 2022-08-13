@@ -17,12 +17,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
 from post.views import ItemViewSet
-from app.users.viewset import UdemyUserViewSet
+from app.views import UserViewSet
 from rest_framework import routers, serializers, viewsets
 
 
 router = routers.DefaultRouter()
-router.register(r'users', UdemyUserViewSet)
+router.register(r'users', UserViewSet)
 router.register(r'posts', ItemViewSet)
 
 
