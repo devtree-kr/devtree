@@ -15,3 +15,8 @@ class PostViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=False)
     def testGet(self, request):
         return Response("Its post Test!")
+
+    @action(methods=['post'], detail=False)
+    def testPost(self, request):
+        serializer = PostSerailzer(data=request.data)
+        return Response("umm..")

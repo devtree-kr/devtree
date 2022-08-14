@@ -46,6 +46,20 @@ services:
     ports:
       - 23000:3000
 
+  nest:
+    container_name: devtree-nest
+    tty: true
+    command : npm run start:dev
+    build:
+      context: .
+      dockerfile: ./dockerfiles/nest.dockerfile
+    volumes:
+      - ./nest:/usr/src/app
+    ports:
+      - 23018:3000
+    expose:
+      - 23306
+
  # phpMyAdmin
   pma:
     image: phpmyadmin/phpmyadmin
