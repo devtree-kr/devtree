@@ -10,7 +10,7 @@ const Layout: FC<{ children: ReactNode; title: string }> = ({ children, title })
     <>
       <header className={styles.header}>
         <Link passHref={true} href={"/"}>
-          <Image className={styles.logo} src="/logo.svg" alt="Devtree" width={200} height={26} />
+          <Image className={styles.logo} src="/logo.svg" alt="Devtree" width={180} height={20} />
         </Link>
         <Link passHref={true} href={"/login"}>
           <a className={styles.loginButton}>LOGIN</a>
