@@ -6,6 +6,8 @@ import { User } from 'src/user/user';
 import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
+import { JwtStrategy } from './jwt.strategy';
+import { LocalStrategy } from './local.strategy';
 
 @Module({
   imports: [
@@ -26,7 +28,7 @@ import { AuthController } from './auth.controller';
       inject: [ConfigService], // useFactoryで使う為にConfigServiceを注入する
     }),
   ],
-  providers: [AuthService, UserService],
+  providers: [AuthService, UserService, JwtStrategy, LocalStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

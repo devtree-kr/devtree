@@ -6,7 +6,6 @@ import { useState } from "react";
 import { clientAxios } from "../axios";
 import { useAllPassed } from "../hooks/use-all-passed";
 import { useEmailValidation } from "../hooks/use-email-validation";
-import { validateEmail } from "../utils";
 import Layout from "./components/layout";
 
 function SuccessDialog(props: { open: boolean; onClose: () => void }) {

@@ -2,16 +2,21 @@ import { Button, Divider, Link, Paper, Stack, TextField, Typography } from "@mui
 import type { NextPage } from "next";
 import NextLink from "next/link";
 import { useState } from "react";
+import { clientAxios } from "../axios";
 import { useAllPassed } from "../hooks/use-all-passed";
 import { useEmailValidation } from "../hooks/use-email-validation";
 import Layout from "./components/layout";
+import crypto from "crypto";
 
 const Login: NextPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const isCorrectEmail = useEmailValidation(email);
   const submittable = useAllPassed(isCorrectEmail, email, password);
-  const submit = async () => {};
+  const submit = async () => {
+    const hashPassword = crypto.createHash("sha256").update(password, "utf8").digest("hex");
+    clientAxios.post("auth/login", { email, password: hashPassword });
+  };
   return (
     <Layout title="로그인">
       <Paper sx={{ p: 2 }}>
@@ -40,7 +45,7 @@ const Login: NextPage = () => {
               variant="outlined"
               type={"password"}
             />
-            <Button disabled={!submittable} variant="contained" sx={{ color: "white" }}>
+            <Button disabled={!submittable} variant="contained" sx={{ color: "white" }} type="submit">
               LOGIN
             </Button>
             <Divider />
