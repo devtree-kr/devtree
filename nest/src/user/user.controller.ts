@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { NewUserDto } from './dto/new-user.input';
-import { User } from './user';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -21,7 +20,6 @@ export class UserController {
 
   @Post('join')
   async addNewUser(@Body() body: NewUserDto) {
-    this.userService.addNewUser;
-    return 'hell';
+    return await this.userService.addNewUser(body);
   }
 }

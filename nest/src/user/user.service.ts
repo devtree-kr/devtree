@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { NewUserDto } from './dto/new-user.input';
 import { User } from './user';
 
 @Injectable()
@@ -19,7 +20,8 @@ export class UserService {
     return await this.repo.find(); // OR맵퍼에게 가져오라고 시킴
   }
 
-  public async addNewUser() {
-    return true;
+  public async addNewUser({ nickName, email, password }: NewUserDto) {
+    const entity = this.repo.create({ nickName, email, password });
+    return await this.repo.save(entity);
   }
 }
