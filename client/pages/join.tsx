@@ -2,8 +2,10 @@ import { Button, Dialog, Divider, Link, Paper, Stack, TextField, Typography } fr
 import crypto from "crypto";
 import type { NextPage } from "next";
 import NextLink from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { clientAxios } from "../axios";
+import { useAllPassed } from "../hooks/use-all-passed";
+import { useEmailValidation } from "../hooks/use-email-validation";
 import { validateEmail } from "../utils";
 import Layout from "./components/layout";
 
@@ -49,29 +51,20 @@ const Login: NextPage = () => {
   const [password, setPassword] = useState("");
   const [nickName, setNickName] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [isSubmittable, setIsSubmittable] = useState(false);
-  const [isCorrectEmail, setIsCorrectEmail] = useState(false);
-  const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const [succeed, setSucceed] = useState(false);
   const [failed, setFailed] = useState(false);
+  const isCorrectEmail = useEmailValidation(email);
+  const isPasswordConfirmed = useAllPassed(password === passwordConfirm);
+  const isSubmittable = useAllPassed(email, password, passwordConfirm, isCorrectEmail, nickName, isPasswordConfirmed);
   const submit = async () => {
     try {
       const hashPassword = crypto.createHash("sha256").update(password, "utf8").digest("hex");
-      await clientAxios.post("user/join/", { email, password: hashPassword, nickName });
+      await clientAxios.post("auth/join/", { email, password: hashPassword, nickName });
       setSucceed(true);
     } catch {
       setFailed(true);
     }
   };
-  useEffect(() => setIsPasswordConfirmed(passwordValidate(password, passwordConfirm)), [password, passwordConfirm]);
-  useEffect(() => setIsCorrectEmail(emailValidate(email)), [email]);
-  useEffect(() => {
-    const isSafe = () => {
-      if (!email || !password || !passwordConfirm || !isCorrectEmail || !nickName || !isPasswordConfirmed) return false;
-      else return true;
-    };
-    setIsSubmittable(isSafe());
-  }, [email, isCorrectEmail, isPasswordConfirmed, nickName, password, passwordConfirm]);
 
   return (
     <Layout title="회원가입">
@@ -137,17 +130,5 @@ const Login: NextPage = () => {
     </Layout>
   );
 };
-
-function passwordValidate(pw: string, pwc: string) {
-  if (pw && pwc !== pw) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function emailValidate(email: string) {
-  return !email || validateEmail(email);
-}
 
 export default Login;

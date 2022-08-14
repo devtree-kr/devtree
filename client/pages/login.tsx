@@ -1,18 +1,46 @@
 import { Button, Divider, Link, Paper, Stack, TextField, Typography } from "@mui/material";
 import type { NextPage } from "next";
 import NextLink from "next/link";
+import { useState } from "react";
+import { useAllPassed } from "../hooks/use-all-passed";
+import { useEmailValidation } from "../hooks/use-email-validation";
 import Layout from "./components/layout";
 
 const Login: NextPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const isCorrectEmail = useEmailValidation(email);
+  const submittable = useAllPassed(isCorrectEmail, email, password);
+  const submit = async () => {};
   return (
     <Layout title="로그인">
       <Paper sx={{ p: 2 }}>
-        <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            submit();
+          }}
+        >
           <Stack spacing={2}>
             <h1 style={{ margin: "auto" }}>로그인</h1>
-            <TextField id="email-input" label="이메일 주소" variant="outlined" type={"email"} />
-            <TextField id="password-input" label="비밀번호" variant="outlined" type={"password"} />
-            <Button variant="contained" sx={{ color: "white" }}>
+            <TextField
+              id="email-input"
+              label="이메일 주소"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              variant="outlined"
+              type={"email"}
+              error={!isCorrectEmail}
+            />
+            <TextField
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              id="password-input"
+              label="비밀번호"
+              variant="outlined"
+              type={"password"}
+            />
+            <Button disabled={!submittable} variant="contained" sx={{ color: "white" }}>
               LOGIN
             </Button>
             <Divider />

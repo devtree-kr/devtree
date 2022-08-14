@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { NewUserDto } from './dto/new-user.input';
+import { Controller, Get } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -16,10 +15,5 @@ export class UserController {
   @Get('getAllEasy') // getAllEasy로 들어오는 GET리퀘스트를 이걸로 실행시키겠다는 의미
   async getAllWithTypORM() {
     return await this.userService.getAllWithTypORM();
-  }
-
-  @Post('join')
-  async addNewUser(@Body() body: NewUserDto) {
-    return await this.userService.addNewUser(body);
   }
 }
