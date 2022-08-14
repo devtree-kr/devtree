@@ -18,4 +18,8 @@ export class UserService {
   public async getAllWithTypORM() {
     return await this.repo.find(); // OR맵퍼에게 가져오라고 시킴
   }
+
+  public async addNewUser() {
+    return true;
+  }
 }

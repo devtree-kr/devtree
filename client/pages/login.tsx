@@ -18,7 +18,7 @@ const Login: NextPage = () => {
             <Divider />
             <Stack direction="row" alignItems={"center"} spacing={1}>
               <Typography>아직 회원이 아니신가요?</Typography>
-              <NextLink passHref={true} href="/">
+              <NextLink passHref={true} href="/join">
                 <Link>회원가입</Link>
               </NextLink>
             </Stack>
