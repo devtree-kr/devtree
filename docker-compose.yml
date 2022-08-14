@@ -7,8 +7,7 @@ services:
     build: 
       context: .
       dockerfile: ./dockerfiles/django.dockerfile
-    command: sh -c "python manage.py migrate &&
-      python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
     ports:
       - 28000:8000
     depends_on:
@@ -65,7 +64,7 @@ services:
     image: phpmyadmin/phpmyadmin
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOSTS=db
+      - PMA_HOSTS=35.79.53.171:33306
     ports:
       - 28888:80
     depends_on:

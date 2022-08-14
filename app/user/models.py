@@ -4,6 +4,8 @@ from django.db import models
 
 
 class User(models.Model):
+    class Meta:
+        db_table = 'users'
     id = models.PositiveBigIntegerField(primary_key=True)
     email = models.EmailField(unique=True)
     password = models.TextField()
