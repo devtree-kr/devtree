@@ -1,7 +1,7 @@
-import { UserTest } from './user';
+import { User } from './user';
 
 describe('User', () => {
   it('should be defined', () => {
-    expect(new UserTest()).toBeDefined();
+    expect(new User()).toBeDefined();
   });
 });

@@ -12,6 +12,7 @@ services:
       - 28000:8000
   
   client:
+    container_name: devtree-next
     build:
       context: .
       dockerfile: ./dockerfiles/next.dockerfile
