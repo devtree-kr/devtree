@@ -10,7 +10,7 @@ import { User } from './user/user';
       type: 'mysql',
       host: '35.79.53.171',
       port: 33306,
-      username: 'root',
+      username: 'devtree_dev',
       password: 'Dptmvlr!',
       database: 'devtree_dev',
       entities: [User],

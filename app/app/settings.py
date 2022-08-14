@@ -79,11 +79,11 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'devtree',
-        'USER': 'root',
+        'NAME': 'devtree_dev',
+        'USER': 'devtree_dev',
         'PASSWORD': 'Dptmvlr!',
-        'HOST': 'db',
-        'PORT': '3306'
+        'HOST': '35.79.53.171',
+        'PORT': '33306'
     }
 }
 

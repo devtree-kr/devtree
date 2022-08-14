@@ -10,30 +10,6 @@ services:
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
     ports:
       - 28000:8000
-    depends_on:
-      db:
-        condition: service_healthy
-
-  db:
-    platform: linux/x86_64
-    image: mysql:8
-    restart: always
-    environment:
-      MYSQL_DATABASE: devtree
-      MYSQL_ROOT_PASSWORD: $ROOT_PASSWORD
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      TZ: "Asia/Tokyo"
-    ports:
-      - 23306:3306
-    expose:
-      - 23306
-    volumes:
-      - ./mysql/initdb.d:/docker-entrypoint-initdb.d #DB駆動エントリポイント
-      - ./mysql/db:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
-      - ./mysql/conf.d:/etc/mysql/conf.d #MySql設定ファイル
-    command: --default-authentication-plugin=mysql_native_password
-    healthcheck:
-        test: mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD
   
   client:
     build:
@@ -67,8 +43,6 @@ services:
       - PMA_HOSTS=35.79.53.171:33306
     ports:
       - 28888:80
-    depends_on:
-      - db
   
   nginx:
     tty: true
