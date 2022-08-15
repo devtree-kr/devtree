@@ -66,7 +66,7 @@ const Login: NextPage = () => {
   };
 
   return (
-    <Layout title="회원가입">
+    <Layout title="회원가입" auth={null}>
       <SuccessDialog open={succeed} onClose={() => setSucceed(false)} />
       <FailedDialog open={failed} onClose={() => setFailed(false)} />
       <Paper sx={{ p: 2 }}>

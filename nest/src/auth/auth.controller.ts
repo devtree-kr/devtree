@@ -1,9 +1,17 @@
 import { User } from '@entities';
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { NewUserDto } from './dto/user.dto';
+import { CurrentUser } from './guards/local-auth.guard';
 type PasswordOmitUser = Omit<User, 'password'>;
 @Controller('auth')
 export class AuthController {
@@ -20,10 +28,14 @@ export class AuthController {
   @UseGuards(AuthGuard('local')) // passport-local戦略を付与する
   @Post('login')
   async login(@Request() req: { user: PasswordOmitUser }) {
-    const user = req.user;
     const token = await this.authService.login(req.user);
-    // LocalStrategy.validate()で認証して返した値がreq.userに入ってる
-    // JwtToken を返す
-    return { ...user, ...token };
+    // JwtToken을 돌려줌
+    return token;
+  }
+
+  @UseGuards(AuthGuard('jwt')) //
+  @Get('check')
+  async authCheck(@CurrentUser() user: User) {
+    return user;
   }
 }

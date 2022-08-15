@@ -1,3 +1,4 @@
+import { User } from "@entities";
 import { Typography } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
@@ -5,16 +6,22 @@ import Link from "next/link";
 import { FC, ReactNode } from "react";
 import styles from "../../styles/Layout.module.scss";
 
-const Layout: FC<{ children: ReactNode; title: string }> = ({ children, title }) => {
+const Layout: FC<{ children: ReactNode; title: string; auth: User | null }> = ({ children, title, auth }) => {
+  const TopButton = () =>
+    auth ? (
+      <>{auth.nickName}</>
+    ) : (
+      <Link passHref={true} href={"/login"}>
+        <a className={styles.loginButton}>LOGIN</a>
+      </Link>
+    );
   return (
     <>
       <header className={styles.header}>
         <Link passHref={true} href={"/"}>
           <Image className={styles.logo} src="/logo.svg" alt="Devtree" width={180} height={20} />
         </Link>
-        <Link passHref={true} href={"/login"}>
-          <a className={styles.loginButton}>LOGIN</a>
-        </Link>
+        <TopButton />
       </header>
       <div className={styles.container}>
         <Head>

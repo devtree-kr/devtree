@@ -7,18 +7,25 @@ import { useAllPassed } from "../hooks/use-all-passed";
 import { useEmailValidation } from "../hooks/use-email-validation";
 import Layout from "./components/layout";
 import crypto from "crypto";
+import { setCookie } from "nookies";
+import { useRouter } from "next/router";
 
 const Login: NextPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const isCorrectEmail = useEmailValidation(email);
   const submittable = useAllPassed(isCorrectEmail, email, password);
+  const { push } = useRouter();
   const submit = async () => {
     const hashPassword = crypto.createHash("sha256").update(password, "utf8").digest("hex");
-    clientAxios.post("auth/login", { email, password: hashPassword });
+    const res = await clientAxios.post("auth/login", { email, password: hashPassword });
+    const token = res.data["access_token"];
+    setCookie(null, "access_token", token);
+    sessionStorage.setItem("access_token", token);
+    push("/");
   };
   return (
-    <Layout title="로그인">
+    <Layout title="로그인" auth={null}>
       <Paper sx={{ p: 2 }}>
         <form
           onSubmit={(e) => {
