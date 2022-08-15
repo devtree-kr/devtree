@@ -19,14 +19,14 @@ services:
     volumes:
       - ./client:/usr/src/app
       - ./types:/usr/src/types
-    command: "pnpm dev"
+    command: "pnpm serve"
     ports:
       - 23000:3000
 
   nest:
     container_name: devtree-nest
     tty: true
-    command : npm run start
+    command : npm run serve
     build:
       context: .
       dockerfile: ./dockerfiles/nest.dockerfile
