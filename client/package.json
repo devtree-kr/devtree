@@ -6,7 +6,8 @@
     "dev": "npm install && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "serve": "npm install && next build && next start"
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",
