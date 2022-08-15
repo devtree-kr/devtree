@@ -23,10 +23,19 @@ a {
     color: inherit;
     box-sizing: inherit;
   }
-  p code {
-    padding: 5px;
-    background-color: #ddd;
-    border-radius: 5px;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    code {
+      padding: 5px;
+      background-color: #ededed;
+      color: #eb5757;
+      border-radius: 5px;
+    }
   }
 }
 
