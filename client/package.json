@@ -11,12 +11,16 @@
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
+    "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
     "axios": "^0.27.2",
     "next": "12.2.5",
     "nookies": "^2.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-markdown": "^8.0.3",
+    "react-syntax-highlighter": "^15.5.0",
+    "remark-gfm": "^3.0.1",
     "sass": "^1.54.4",
     "scss": "^0.2.4"
   },
@@ -24,6 +28,7 @@
     "@types/node": "18.7.2",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
+    "@types/react-syntax-highlighter": "^15.5.4",
     "eslint": "8.21.0",
     "eslint-config-next": "12.2.5",
     "typescript": "4.7.4"

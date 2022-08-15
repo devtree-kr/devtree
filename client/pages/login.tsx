@@ -5,7 +5,7 @@ import { useState } from "react";
 import { clientAxios } from "../axios";
 import { useAllPassed } from "../hooks/use-all-passed";
 import { useEmailValidation } from "../hooks/use-email-validation";
-import Layout from "./components/layout";
+import Layout from "../components/layout";
 import crypto from "crypto";
 import { setCookie } from "nookies";
 import { useRouter } from "next/router";

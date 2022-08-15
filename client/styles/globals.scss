@@ -18,6 +18,18 @@ a {
   color: #444941;
   box-sizing: border-box;
 }
+.markdown-content {
+  * {
+    color: inherit;
+    box-sizing: inherit;
+  }
+  p code {
+    padding: 5px;
+    background-color: #ddd;
+    border-radius: 5px;
+  }
+}
+
 /* 
 @media (prefers-color-scheme: dark) {
   html {

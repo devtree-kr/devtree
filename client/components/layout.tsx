@@ -1,15 +1,23 @@
 import { User } from "@entities";
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton, Stack } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, ReactNode } from "react";
-import styles from "../../styles/Layout.module.scss";
-
+import styles from "../styles/Layout.module.scss";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import { Button } from "@mui/material";
 const Layout: FC<{ children: ReactNode; title: string; auth: User | null }> = ({ children, title, auth }) => {
   const TopButton = () =>
     auth ? (
-      <Avatar alt={auth.nickName} sx={{ height: 30, width: 30 }} />
+      <Stack direction={"row"} spacing={1} alignItems="center">
+        <Link passHref={true} href="/post/new">
+          <IconButton>
+            <PostAddIcon />
+          </IconButton>
+        </Link>
+        <Avatar alt={auth.nickName} sx={{ height: 30, width: 30 }} />
+      </Stack>
     ) : (
       <Link passHref={true} href={"/login"}>
         <a className={styles.loginButton}>LOGIN</a>
