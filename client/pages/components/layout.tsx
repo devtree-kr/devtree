@@ -1,5 +1,5 @@
 import { User } from "@entities";
-import { Typography } from "@mui/material";
+import { Avatar } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import styles from "../../styles/Layout.module.scss";
 const Layout: FC<{ children: ReactNode; title: string; auth: User | null }> = ({ children, title, auth }) => {
   const TopButton = () =>
     auth ? (
-      <>{auth.nickName}</>
+      <Avatar alt={auth.nickName} sx={{ height: 30, width: 30 }} />
     ) : (
       <Link passHref={true} href={"/login"}>
         <a className={styles.loginButton}>LOGIN</a>
