@@ -1,58 +1,35 @@
 version: "3.8"
 services:
   app:
-    container_name: devtree-django
-    volumes:
-     - ./app:/app
-    build: 
-      context: .
-      dockerfile: ./dockerfiles/django.dockerfile
-    command: sh -c "python manage.py runserver 0.0.0.0:8000"
-    ports:
-      - 28000:8000
-  
+    depends_on:
+      db:
+        condition: service_healthy
   client:
-    container_name: devtree-next
-    build:
-      context: .
-      dockerfile: ./dockerfiles/next.dockerfile
-    volumes:
-      - ./client:/usr/src/app
-      - ./types:/usr/src/types
     command: "pnpm serve"
-    ports:
-      - 23000:3000
 
   nest:
-    container_name: devtree-nest
-    tty: true
     command : npm run serve
-    build:
-      context: .
-      dockerfile: ./dockerfiles/nest.dockerfile
-    volumes:
-      - ./nest:/usr/src/app
-      - ./types:/usr/src/types
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    platform: linux/x86_64
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: devtree
+      MYSQL_ROOT_PASSWORD: $DEV_PASSWORD
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      TZ: "Asia/Tokyo"
     ports:
-      - 23018:3000
+      - 23306:3306
     expose:
       - 23306
-
- # phpMyAdmin
-  pma:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOSTS=35.79.53.171:33306
-    ports:
-      - 28888:80
-  
-  nginx:
-    tty: true
-    image: nginx:1.21-alpine
-    ports:
-      - "80:80"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - devtree-next
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d #DB駆動エントリポイント
+      - ./mysql/db:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
+      - ./mysql/conf.d:/etc/mysql/conf.d #MySql設定ファイル
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+        test: mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD
