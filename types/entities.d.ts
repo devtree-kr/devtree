@@ -10,6 +10,8 @@ export type User = {
   nickName: string;
   /**주소 */
   address?: string;
+  /**우편번호 */
+  zipcode?: string;
   tel?: string;
   sex?: string;
   birthday?: Date;
