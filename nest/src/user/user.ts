@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User as Type } from '@entities';
 
 /**이용자엔티티 */
@@ -28,8 +34,8 @@ export class User implements Type {
   corpId: string;
   @Column()
   userImgId: string;
-  @Column()
+  @CreateDateColumn({ update: false })
   createdAt: Date;
-  @Column()
+  @UpdateDateColumn({ default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 }

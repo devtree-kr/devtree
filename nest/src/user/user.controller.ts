@@ -17,8 +17,8 @@ export class UserController {
     return await this.userService.getAllWithTypORM();
   }
 
-  @Get("test")
-  async testReturn(){
-    return "sung gyeong im"
+  @Get('test')
+  async testReturn() {
+    return 'sung gyeong im';
   }
 }
