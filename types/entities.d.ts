@@ -1,3 +1,9 @@
+type MetaData = {
+  /**작성일 */
+  createdAt: Date;
+  /**갱신일 */
+  updatedAt: Date;
+};
 /**이용자 */
 export type User = {
   /**식별자 */
@@ -18,6 +24,12 @@ export type User = {
   name?: string;
   corpId?: string;
   userImgId?: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+} & MetaData;
+
+export type Post = {
+  id: number;
+  userId: number;
+  title: string;
+  content: string;
+  views: number;
+} & MetaData;

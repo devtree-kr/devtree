@@ -28,6 +28,7 @@ export class AuthController {
   @UseGuards(AuthGuard('local')) // passport-local戦略を付与する
   @Post('login')
   async login(@Request() req: { user: PasswordOmitUser }) {
+    console.log(req);
     const token = await this.authService.login(req.user);
     // JwtToken을 돌려줌
     return token;
