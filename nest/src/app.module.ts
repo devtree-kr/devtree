@@ -8,6 +8,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { PostModule } from './post/post.module';
 import { Post } from './post/post';
+import { TagModule } from './tag/tag.module';
+import { Tag } from './tag/tag';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -18,12 +20,13 @@ import { Post } from './post/post';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Post],
+      entities: [User, Post, Tag],
       synchronize: false,
     }),
     UserModule,
     AuthModule,
     PostModule,
+    TagModule,
   ],
   controllers: [AppController],
   providers: [AppService],

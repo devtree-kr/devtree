@@ -33,3 +33,9 @@ export type Post = {
   content: string;
   views: number;
 } & MetaData;
+
+export type Tag = {
+  id: number;
+  tagNmKr: string;
+  tagNmEn: string;
+};

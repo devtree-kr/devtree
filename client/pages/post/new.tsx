@@ -1,10 +1,10 @@
-import { User } from "@entities";
+import { Tag, User } from "@entities";
 import type { GetServerSideProps, NextPage } from "next";
 import { withAuth } from "../../ssr/auth";
 import Layout from "../../components/layout";
-import { Autocomplete, Box, Button, FormControlLabel, Paper, Stack, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, FormControlLabel, ListItem, Paper, Stack, TextField } from "@mui/material";
 import ReactMarkdown from "react-markdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 //@ts-ignore
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
@@ -13,25 +13,45 @@ import { clientAxios, isBrowser } from "../../axios";
 import SaveIcon from "@mui/icons-material/Save";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import Switch from "@mui/material/Switch";
-
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 const Home: NextPage<{ auth: User }> = ({ auth }) => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [viewPreview, setViewPreview] = useState(true);
+  const [options, setOptions] = useState<Tag[]>([]);
+  const searchTags = async (value: string) => {
+    const res = await clientAxios.get(`tag/?keyword=${value}`).then((x) => x.data);
+    console.log(res);
+    setOptions(res);
+  };
   const postSubmit = async () => {
     await clientAxios.post("post/new", { content, title });
   };
+  useEffect(() => {
+    clientAxios.get(`tag/`).then((x) => setOptions(x.data));
+  }, []);
   return (
     <Layout title="게시물 작성" auth={auth}>
       <Paper sx={{ p: 2, width: "100%" }}>
         <Stack spacing={2}>
           <h1>게시물 작성</h1>
-          <Autocomplete
-            disablePortal
+          <Autocomplete<Tag, true>
             id="combo-box-demo"
-            options={top100Films}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="카테고리" />}
+            multiple
+            // filterSelectedOptions={true}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            getOptionLabel={(option) => option.tagNmEn}
+            defaultValue={[]}
+            // renderOption={(_, option) => (
+            //   <ListItemButton>
+            //     <ListItemIcon>a</ListItemIcon>
+            //     <ListItemText>{option.tagNmEn}</ListItemText>
+            //   </ListItemButton>
+            // )}
+            options={[...options]}
+            renderInput={(params) => <TextField variant="standard" {...params} onChange={(e) => searchTags(e.target.value)} label="카테고리" />}
           />
           <FormControlLabel control={<Switch checked={viewPreview} onChange={(e) => setViewPreview(e.target.checked)} />} label="미리보기 표시" />
           <TextField variant="standard" label="제목" size="medium" fullWidth value={title} onChange={(e) => setTitle(e.target.value)} />
