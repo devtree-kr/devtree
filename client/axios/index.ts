@@ -7,6 +7,6 @@ export const clientAxios = Axios.create({
 });
 
 export const ssrAxios = Axios.create({
-  baseURL: "http://nest:3000",
+  baseURL: "http://devtree-nest:3000",
   headers: { "Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest", authorization: `Bearer ${getCsrToken()}` },
 });
