@@ -13,7 +13,7 @@ export class PostController {
   @Post('new')
   async addNewPost(@CurrentUser() user: User, @Body() body: NewPostInput) {
     console.log(body);
-    await this.postService.addNewPost(user, body);
+    return await this.postService.addNewPost(user, body);
   }
 
   @Get(':id')

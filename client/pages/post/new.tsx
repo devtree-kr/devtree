@@ -1,4 +1,4 @@
-import { Tag, User } from "@entities";
+import { Post, Tag, User } from "@entities";
 import type { GetServerSideProps, NextPage } from "next";
 import { requireAuth, withAuth } from "../../ssr/auth";
 import Layout from "../../components/layout";
@@ -14,19 +14,23 @@ import SaveIcon from "@mui/icons-material/Save";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import Switch from "@mui/material/Switch";
 import { NewPostInput } from "@dtos";
+import { AxiosResponse } from "axios";
+import { useRouter } from "next/router";
 const Home: NextPage<{ auth: User }> = ({ auth }) => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [viewPreview, setViewPreview] = useState(true);
   const [options, setOptions] = useState<Tag[]>([]);
   const [pickedTags, setPickedTags] = useState<Tag[]>([]);
+  const { push } = useRouter();
   const searchTags = async (value: string) => {
     const res = await clientAxios.get(`tag/?keyword=${value}`).then((x) => x.data);
     console.log(res);
     setOptions(res);
   };
   const postSubmit = async () => {
-    await clientAxios.post<any, any, NewPostInput>("post/new", { content, title, tagIds: pickedTags?.map((x) => x.id) });
+    const res = await clientAxios.post<Post, AxiosResponse<Post>, NewPostInput>("post/new", { content, title, tagIds: pickedTags?.map((x) => x.id) });
+    push(`/post/${res.data.id}`);
   };
   useEffect(() => {
     clientAxios.get(`tag/`).then((x) => setOptions(x.data));
