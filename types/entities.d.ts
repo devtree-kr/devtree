@@ -39,3 +39,8 @@ export type Tag = {
   tagNmKr: string;
   tagNmEn: string;
 };
+
+export type PostTagMap = {
+  postId: number;
+  tagId: number;
+};

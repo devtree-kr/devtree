@@ -15,7 +15,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@entities": ["../types/entities.d.ts"]
+      "@entities": ["../types/entities.d.ts"],
+      "@dtos": ["../types/dtos/index.d.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -1,6 +1,6 @@
 import { Tag, User } from "@entities";
 import type { GetServerSideProps, NextPage } from "next";
-import { withAuth } from "../../ssr/auth";
+import { requireAuth, withAuth } from "../../ssr/auth";
 import Layout from "../../components/layout";
 import { Autocomplete, Box, Button, FormControlLabel, ListItem, Paper, Stack, TextField } from "@mui/material";
 import ReactMarkdown from "react-markdown";
@@ -13,21 +13,20 @@ import { clientAxios, isBrowser } from "../../axios";
 import SaveIcon from "@mui/icons-material/Save";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import Switch from "@mui/material/Switch";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import { NewPostInput } from "@dtos";
 const Home: NextPage<{ auth: User }> = ({ auth }) => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [viewPreview, setViewPreview] = useState(true);
   const [options, setOptions] = useState<Tag[]>([]);
+  const [pickedTags, setPickedTags] = useState<Tag[]>([]);
   const searchTags = async (value: string) => {
     const res = await clientAxios.get(`tag/?keyword=${value}`).then((x) => x.data);
     console.log(res);
     setOptions(res);
   };
   const postSubmit = async () => {
-    await clientAxios.post("post/new", { content, title });
+    await clientAxios.post<any, any, NewPostInput>("post/new", { content, title, tagIds: pickedTags?.map((x) => x.id) });
   };
   useEffect(() => {
     clientAxios.get(`tag/`).then((x) => setOptions(x.data));
@@ -40,16 +39,11 @@ const Home: NextPage<{ auth: User }> = ({ auth }) => {
           <Autocomplete<Tag, true>
             id="combo-box-demo"
             multiple
-            // filterSelectedOptions={true}
+            value={pickedTags}
+            onChange={(event, newValue) => setPickedTags(newValue)} // filterSelectedOptions={true}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             getOptionLabel={(option) => option.tagNmEn}
-            defaultValue={[]}
-            // renderOption={(_, option) => (
-            //   <ListItemButton>
-            //     <ListItemIcon>a</ListItemIcon>
-            //     <ListItemText>{option.tagNmEn}</ListItemText>
-            //   </ListItemButton>
-            // )}
+            defaultValue={pickedTags}
             options={[...options]}
             renderInput={(params) => <TextField variant="standard" {...params} onChange={(e) => searchTags(e.target.value)} label="카테고리" />}
           />
@@ -106,7 +100,7 @@ const Home: NextPage<{ auth: User }> = ({ auth }) => {
 };
 
 export default Home;
-export const getServerSideProps: GetServerSideProps = withAuth;
+export const getServerSideProps: GetServerSideProps = requireAuth;
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
