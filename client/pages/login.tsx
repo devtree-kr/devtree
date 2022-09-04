@@ -15,14 +15,14 @@ const Login: NextPage = () => {
   const [password, setPassword] = useState("");
   const isCorrectEmail = useEmailValidation(email);
   const submittable = useAllPassed(isCorrectEmail, email, password);
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
   const submit = async () => {
     const hashPassword = crypto.createHash("sha256").update(password, "utf8").digest("hex");
     const res = await clientAxios.post("auth/login", { email, password: hashPassword });
     const token = res.data["access_token"];
     setCookie(null, "access_token", token);
     sessionStorage.setItem("access_token", token);
-    push("/");
+    reload();
   };
   return (
     <Layout title="로그인" auth={null}>
