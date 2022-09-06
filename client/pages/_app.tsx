@@ -4,6 +4,17 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/system";
 
 const theme = createTheme({
+  typography: {
+    h1: {
+      fontSize: "4rem",
+    },
+    button: {
+      fontSize: "2rem",
+    },
+    subtitle1: {
+      fontSize: "1.6rem",
+    },
+  },
   palette: {
     primary: {
       // light: "#757ce8",
