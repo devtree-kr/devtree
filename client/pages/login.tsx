@@ -1,5 +1,5 @@
 import { Button, Divider, Link, Paper, Stack, TextField, Typography } from "@mui/material";
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import NextLink from "next/link";
 import { useState } from "react";
 import { clientAxios } from "../axios";
@@ -9,6 +9,7 @@ import Layout from "../components/layout";
 import crypto from "crypto";
 import { setCookie } from "nookies";
 import { useRouter } from "next/router";
+import { checkAuthSSR, requireAuth } from "../ssr/auth";
 
 const Login: NextPage = () => {
   const [email, setEmail] = useState("");
@@ -70,3 +71,11 @@ const Login: NextPage = () => {
 };
 
 export default Login;
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const auth = await checkAuthSSR(req);
+  if (auth) {
+    return { redirect: { destination: "/", permanent: true } };
+  } else {
+    return { props: {} };
+  }
+};
