@@ -5,14 +5,25 @@ import { ThemeProvider } from "@mui/system";
 
 const theme = createTheme({
   typography: {
-    h1: {
-      fontSize: "4rem",
-    },
-    button: {
-      fontSize: "2rem",
-    },
-    subtitle1: {
-      fontSize: "1.6rem",
+    fontSize: 14,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 700,
+
+    h1: { fontSize: 60, fontWeight: "bold" },
+    h2: { fontSize: 48, fontWeight: "bold" },
+    h3: { fontSize: 42, fontWeight: "bold" },
+    h4: { fontSize: 36, fontWeight: "bold" },
+    h5: { fontSize: 20, fontWeight: "bold" },
+    h6: { fontSize: 18, fontWeight: "bold" },
+    subtitle1: { fontSize: 18 },
+    body1: { fontSize: 16 },
+    button: { textTransform: "none" },
+    caption: { fontSize: 14 },
+  },
+  components: {
+    MuiSvgIcon: {
+      styleOverrides: {},
     },
   },
   palette: {
@@ -26,7 +37,10 @@ const theme = createTheme({
       // light: "#ff7961",
       main: "#d5eebb",
       // dark: "#ba000d",
-      // contrastText: "#000",
+      // contrastText: "#000"
+      //
+      //
+      // ,
     },
   },
 });

@@ -35,10 +35,12 @@ const Login: NextPage = () => {
           }}
         >
           <Stack spacing={2}>
-            <h1 style={{ margin: "auto" }}>로그인</h1>
+            <Typography style={{ margin: "auto" }} variant="h1" fontSize="2rem">
+              로그인
+            </Typography>
             <TextField
               id="email-input"
-              label="이메일 주소"
+              label={<Typography variant="inherit">이메일 주소</Typography>}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               variant="outlined"
@@ -49,7 +51,7 @@ const Login: NextPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               id="password-input"
-              label="비밀번호"
+              label={<Typography variant="inherit">비밀번호</Typography>}
               variant="outlined"
               type={"password"}
             />
@@ -58,7 +60,7 @@ const Login: NextPage = () => {
             </Button>
             <Divider />
             <Stack direction="row" alignItems={"center"} spacing={1}>
-              <Typography>아직 회원이 아니신가요?</Typography>
+              <Typography variant="subtitle1">아직 회원이 아니신가요?</Typography>
               <NextLink passHref={true} href="/join">
                 <Link>회원가입</Link>
               </NextLink>
